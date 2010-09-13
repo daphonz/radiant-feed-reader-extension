@@ -92,6 +92,20 @@ module FeedReaderTags
   end
 
   desc %{
+    Outputs an entry's media URL.
+
+    *Usage:*
+
+    <pre><code><r:feed:entries:each url="http://somefeed.com/rss">
+      <r:media_url />
+    </r:feed:entries:each></code></pre>
+  }
+  tag "feed:entries:each:media_url" do |tag|
+    format = tag.attr['format'] || "%c"
+    tag.locals.entry.media_content_url
+  end
+
+  desc %{
     Creates an HTML link to the original source of the entry, adding
     any additional attributes to the @<a>@ tag.  If no content is given,
     the entry title will be used.

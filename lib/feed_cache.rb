@@ -13,6 +13,8 @@ class FeedCache
     
     feed = Rails.cache.fetch(feed_cache_key, :expires_in => expires_in) do
       begin
+        # Enable media content from RSS feeds.
+        Feedzirra::Feed.add_common_feed_entry_element("media:content", :value => "url", :as => :media_content_url)
         Feedzirra::Feed.fetch_and_parse(url, :on_failure => lambda{ raise })
       rescue
         nil

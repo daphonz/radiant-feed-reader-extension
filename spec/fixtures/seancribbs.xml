@@ -30,6 +30,7 @@
       <id>http://seancribbs.com/tech/2009/02/26/nominate-your-ruby-hero/</id>
       <content type="html">&lt;p&gt;Is there someone who has made your Ruby experience great?  Someone who doesn&amp;#8217;t get the recognition they deserve?  The Rails Envy guys are doing the Ruby Hero awards again, so go nominate someone!&lt;/p&gt;
 &lt;p&gt;&lt;a href=&quot;http://www.RubyHeroes.com&quot; title=&quot;Ruby Heroes&quot;&gt;&lt;img alt=&quot;Ruby Heroes&quot; src=&quot;http://rubyheroes.morphexchange.com/images/rubyhero_button_small.png&quot; /&gt;&lt;/a&gt;&lt;/p&gt;</content>
+      <media:content url="http://www.feedorall.com/sample.mp3" fileSize="122345" type="audio/mpeg" isDefault="true" expression="sample" bitrate="128" framerate="24" duration="98" height="220" width="300" />
     </entry>
     
     <entry>

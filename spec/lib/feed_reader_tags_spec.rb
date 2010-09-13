@@ -111,22 +111,28 @@ describe "FeedReaderTags" do
     end
   end
   
+  describe "<r:feed:entries:each:media_content_url>" do
+    it "should render the media content url" do
+      @page.should render('<r:feed:entries:each url="http://seancribbs.com/atom.xml" limit="1"><r:media_url /></r:feed:entries:each>').as("http://www.feedorall.com/sample.mp3")
+    end
+  end
+  
   describe "<r:feed:entries:each:body>" do
     it "should render the body" do
       @page.should render('<r:feed:entries:each url="http://seancribbs.com/atom.xml" limit="1"><r:body /></r:feed:entries:each>').as("<p>Is there someone who has made your Ruby experience great?  Someone who doesn&#8217;t get the recognition they deserve?  The Rails Envy guys are doing the Ruby Hero awards again, so go nominate someone!</p>\n<p><a href=\"http://www.RubyHeroes.com\" title=\"Ruby Heroes\"><img alt=\"Ruby Heroes\" src=\"http://rubyheroes.morphexchange.com/images/rubyhero_button_small.png\" /></a></p>")
     end
   end
-  
+
   describe "<r:feed:entries:each:date>" do
     it "should render the date" do
       @page.should render('<r:feed:entries:each url="http://seancribbs.com/atom.xml" limit="1"><r:date /></r:feed:entries:each>').as("Thu Feb 26 02:30:46 2009")
     end
-    
+
     it "should render the date with the given format" do
       @page.should render('<r:feed:entries:each url="http://seancribbs.com/atom.xml" limit="1"><r:date format="%Y-%m-%d"/></r:feed:entries:each>').as("2009-02-26")
     end
   end
-  
+
   describe "<r:feed:entries:each:link>" do
     it "should render a link to the entry" do
       @page.should render('<r:feed:entries:each url="http://seancribbs.com/atom.xml" limit="1"><r:link /></r:feed:entries:each>').as('<a href="http://seancribbs.com/tech/2009/02/26/nominate-your-ruby-hero/">Nominate your Ruby Hero!</a>')
