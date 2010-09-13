@@ -47,7 +47,7 @@ module FeedReaderTags
     end.join
   end
 
-  [:title, :url, :author, :summary].each do |attribute|
+  [:url, :author, :summary].each do |attribute|
     desc %{
       Outputs an entry's #{attribute}.
       
@@ -62,6 +62,25 @@ module FeedReaderTags
     end
   end
 
+  desc %{
+    Outputs an entry's title.
+
+    Optionally, you can enter the @limit@ parameter to truncate
+    the length of the title.
+
+    *Usage:*
+
+    <pre><code><r:feed:entries:each url="http://somefeed.com/rss">
+      <r:title [limit="60"]/>
+    </r:feed:entries:each></code></pre>
+  }
+  tag "feed:entries:each:title" do |tag|
+    if tag.attr["limit"] && tag.attr["limit"].to_i > 0
+      ActionController::Base.helpers.truncate(tag.locals.entry.title, :length => tag.attr["limit"].to_i)
+    else
+      tag.locals.entry.title
+    end
+  end
 
   desc %{
     Outputs an entry's body.

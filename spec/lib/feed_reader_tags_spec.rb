@@ -85,13 +85,17 @@ describe "FeedReaderTags" do
       @page.should render('<r:feed:entries:each url="dne">foo</r:feed:entries:each>').as('')
     end
   end
-  
+
   describe "<r:feed:entries:each:title>" do
     it "should render the title" do
       @page.should render('<r:feed:entries:each url="http://seancribbs.com/atom.xml" limit="1"><r:title /></r:feed:entries:each>').as("Nominate your Ruby Hero!")
     end
+
+    it "should truncate the title when provided with a limit paramater" do
+      @page.should render('<r:feed:entries:each url="http://seancribbs.com/atom.xml" limit="1"><r:title limit="10" /></r:feed:entries:each>').as("Nominat...")
+    end
   end
-  
+
   describe "<r:feed:entries:each:author>" do
     it "should render the author" do
       @page.should render('<r:feed:entries:each url="http://seancribbs.com/atom.xml" limit="1"><r:author /></r:feed:entries:each>').as("Sean Cribbs")
