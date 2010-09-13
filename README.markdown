@@ -15,13 +15,13 @@ Then run this:
 
 That's it! There are no migrations or public files.  If you absolutely must install it manually:
 
-<pre><code>$ git clone git://github.com/seancribbs/radiant-feed-reader-extension.git vendor/extensions/feed_reader </code></pre>
+<pre><code>$ git clone git://github.com/daphonz/radiant-feed-reader-extension.git vendor/extensions/feed_reader </code></pre>
 
 or
 
-<pre><code>$ git submodule add git://github.com/seancribbs/radiant-feed-reader-extension.git vendor/extensions/feed_reader</code></pre>
+<pre><code>$ git submodule add git://github.com/daphonz/radiant-feed-reader-extension.git vendor/extensions/feed_reader</code></pre>
 
-This extension is tested on Radiant 0.7.1.
+This extension is tested on Radiant 0.8.1.
 
 Usage
 -----
