@@ -3,7 +3,7 @@ feed_reader Extension
 
 About
 -----
-This is a Radiant CMS extension (inspired by the `rss_reader_extension`) that adds some tags to fetch and display syndication feeds. It uses Paul Dix's [Feedzirra library][1] and is able to cache the parsed feed data to disk to take advantage of Feedzirra's awesome bandwidth-saving features.
+This is a Radiant CMS extension (inspired by the `rss_reader_extension`) that adds some tags to fetch and display syndication feeds. It uses Paul Dix's [Feedzirra library][1] and caches the parsed feed data using the built-in Rails caching system, so you can choose your own caching library:  disk, memory, or Memcached, among others.
 
 Installation
 ------------
@@ -11,9 +11,7 @@ Follow the installation instructions for [Feedzirra][1].
 
 Then run this:
 
-<pre><code>$ script/extension install feed_reader </code></pre>
-
-That's it! There are no migrations or public files.  If you absolutely must install it manually:
+To install, go to your Radiant application's root directory, and then:
 
 <pre><code>$ git clone git://github.com/daphonz/radiant-feed-reader-extension.git vendor/extensions/feed_reader </code></pre>
 
