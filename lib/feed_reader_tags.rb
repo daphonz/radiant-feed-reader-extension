@@ -5,7 +5,19 @@ module FeedReaderTags
 
   desc %{
     The root of the feed namespace.  Can take the 'url' attribute
-    to scope all contained tags to a specific newsfeed. 
+    to scope all contained tags to a specific newsfeed.
+    The optional @expires_in@ and @stale_after@ attributes are used for caching purposes.
+
+    @expires_in@ is only useful if you're using Memcached as your Rails Cache, and tells Memcached
+    how long to cache the Feed.
+
+    @stale_after@ is slightly different.  It will examine the posts in a feed, and look at the most recent
+    entry.  @stale_after@ tells the library how long after the last post to try looking for a new one.  This
+    is a kind of time-expiration method used to keep your feed fresh without updating it too often.  Obviously,
+    this works better for frequently-updated feeds.
+
+    The input for both is a string in the form of "{Number} {Duration}", i.e.: "1 day", or "50 minutes". 
+
   }
   tag "feed" do |tag|
     tag.locals.feed = FeedCache.get(tag.attr['url'], :expires_in => tag.attr['expires_in'], :stale_after => tag.attr['stale_after']) if tag.attr['url']
@@ -27,7 +39,8 @@ module FeedReaderTags
   desc %{
     Iterates over all the entries in the feed, rendering the contained
     block in the context of the entry.  The @url@ attribute is required
-    if a parent tag does not define it. Optional @limit@, @by@, and @order@ 
+    if a parent tag does not define it. Optional @limit@, @by@, @order@ 
+    @expires_in@, and @stale_after@
     attributes.
     
     *Usage:*
