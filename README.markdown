@@ -26,7 +26,7 @@ Usage
 
 Use it in your page like this (just an example):
 
-<pre><code>&lt;r:feed:entries:each url=&quot;http://www.somefeed.com/rss&quot; limit=&quot;5&quot;&gt; stale_after=&quot;1 day&quot;
+<pre><code>&lt;r:feed:entries:each url=&quot;http://www.somefeed.com/rss&quot; limit=&quot;5&quot; stale_after=&quot;1 day&quot;&gt;
   &lt;div class=&quot;feed-entry&quot;&gt;
     &lt;h2&gt;&lt;r:link /&gt;&lt;/h2&gt;
     &lt;div class=&quot;meta&quot;&gt;by &lt;r:author /&gt; on &lt;r:date format=&quot;%Y-%m-%d&quot;/&gt;&lt;/div&gt;
