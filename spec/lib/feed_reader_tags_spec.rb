@@ -15,12 +15,12 @@ describe "FeedReaderTags" do
     end
     
     it "should load the feed if the url is given" do
-      FeedCache.should_receive(:get).with('http://seancribbs.com/atom.xml').and_return(@feed)
+      FeedCache.should_receive(:get).with('http://seancribbs.com/atom.xml', {:stale_after => nil, :expires_in => nil}).and_return(@feed)
       @page.should render('<r:feed url="http://seancribbs.com/atom.xml">foo</r:feed>').as('foo')
     end
     
     it "should not render if url generates an error" do
-      FeedCache.should_receive(:get).with('dne').and_return(0)
+      FeedCache.should_receive(:get).with('dne', {:stale_after => nil, :expires_in => nil}).and_return(0)
       @page.should render('<r:feed url="dne">foo</r:feed>').as('')
     end
   end
@@ -31,7 +31,7 @@ describe "FeedReaderTags" do
     end
     
     it "should load the feed if the url is given" do
-      FeedCache.should_receive(:get).with('http://seancribbs.com/atom.xml').and_return(@feed)
+      FeedCache.should_receive(:get).with('http://seancribbs.com/atom.xml', {:stale_after => nil, :expires_in => nil}).and_return(@feed)
       @page.should render('<r:feed:entries url="http://seancribbs.com/atom.xml">foo</r:feed:entries>').as('foo')
     end
     
@@ -46,7 +46,7 @@ describe "FeedReaderTags" do
     end
     
     it "should not render if the url generates an error" do
-      FeedCache.should_receive(:get).with('dne').and_return(0)
+      FeedCache.should_receive(:get).with('dne', {:stale_after => nil, :expires_in => nil}).and_return(0)
       @page.should render('<r:feed:entries url="dne">foo</r:feed:entries>').as('')
     end
   end
@@ -57,7 +57,7 @@ describe "FeedReaderTags" do
     end
     
     it "should load the feed" do
-      FeedCache.should_receive(:get).with('http://seancribbs.com/atom.xml').and_return(@feed)
+      FeedCache.should_receive(:get).with('http://seancribbs.com/atom.xml', {:stale_after => nil, :expires_in => nil}).and_return(@feed)
       @page.should render('<r:feed:entries:each url="http://seancribbs.com/atom.xml" />').as('')
     end
     
@@ -81,7 +81,7 @@ describe "FeedReaderTags" do
     end
     
     it "should not render if the url generates an error" do
-      FeedCache.should_receive(:get).with('dne').and_return(0)
+      FeedCache.should_receive(:get).with('dne', {:stale_after => nil, :expires_in => nil}).and_return(0)
       @page.should render('<r:feed:entries:each url="dne">foo</r:feed:entries:each>').as('')
     end
   end

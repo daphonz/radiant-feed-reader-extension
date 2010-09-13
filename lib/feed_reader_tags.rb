@@ -8,7 +8,7 @@ module FeedReaderTags
     to scope all contained tags to a specific newsfeed. 
   }
   tag "feed" do |tag|
-    tag.locals.feed = FeedCache.get(tag.attr['url']) if tag.attr['url']
+    tag.locals.feed = FeedCache.get(tag.attr['url'], :expires_in => tag.attr['expires_in'], :stale_after => tag.attr['stale_after']) if tag.attr['url']
     tag.expand unless tag.locals.feed.is_a?(Fixnum)
   end
 
@@ -18,7 +18,7 @@ module FeedReaderTags
     inherit the feed from the parent context.
   }
   tag "feed:entries" do |tag|
-    tag.locals.feed = FeedCache.get(tag.attr['url']) if tag.attr['url']
+    tag.locals.feed = FeedCache.get(tag.attr['url'], :expires_in => tag.attr['expires_in'], :stale_after => tag.attr['stale_after']) if tag.attr['url']
     tag.locals.entries = tag.locals.feed.entries if tag.locals.feed.is_a?(Feedzirra::FeedUtilities)
     tag.expand unless tag.locals.feed.is_a?(Fixnum)
   end
@@ -38,7 +38,7 @@ module FeedReaderTags
   }
   tag "feed:entries:each" do |tag|
     raise StandardTags::TagError, "`url' attribute is required" unless tag.attr['url'] || tag.locals.feed
-    tag.locals.feed = FeedCache.get(tag.attr['url']) if tag.attr['url']
+    tag.locals.feed = FeedCache.get(tag.attr['url'], :expires_in => tag.attr['expires_in'], :stale_after => tag.attr['stale_after']) if tag.attr['url']
     tag.locals.entries ||= tag.locals.feed.entries if tag.locals.feed.is_a?(Feedzirra::FeedUtilities)
     entries = (tag.locals.entries ||= [])
     entries_with_options(entries, tag).map do |entry|

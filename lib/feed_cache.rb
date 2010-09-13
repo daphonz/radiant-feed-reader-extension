@@ -6,58 +6,38 @@ class FeedCache
   
   attr_accessor :cache_dir
   
-  def get(url)
-    FileUtils.mkdir_p(cache_dir) unless File.directory?(cache_dir)
-    if cache_exists?(url)
-      feed = load_from_cache(url)
-      feed = Feedzirra::Feed.update(feed)
-      clean_duplicates(feed)
-      save_to_cache(url, feed)
-      feed
-    else
-      feed = Feedzirra::Feed.fetch_and_parse(url)
-      save_to_cache(url, feed)
-      feed
+  def get(url, *args)
+    expires_in = parse_expiration(args.delete(:expires_in))
+    stale_after = parse_expiration(args.delete(:stale_after))
+    feed_cache_key = cache_key(url)
+    
+    feed = Rails.cache.fetch(feed_cache_key, :expires_in => expires_in) do
+      begin
+        Feedzirra::Feed.fetch_and_parse(url, :on_failure => lambda{ raise })
+      rescue
+        nil
+      end
     end
+    
+    # Expire the feed if the last modified date is greater than our stale time of if the results were bad
+    if feed.nil? || (stale_after && feed && (feed.last_modified + stale_after) < Time.now)
+      Rails.cache.delete(feed_cache_key)
+    end
+    
+    feed || 0
   end
   
   private
-    def cache_file(url)
-      File.join(cache_dir, cache_key(url))
-    end
     
-    def cache_exists?(url)
-      File.exist?(cache_file(url))
+  def cache_key(url)
+    Digest::SHA1.hexdigest(url)
+  end
+  
+  def parse_expiration(expiration = '')
+    if expiration =~ /([0-9]+)\s(second(s)?|minute(s)?|hour(s)?|day(s)?|week(s)?|year(s)?)/
+      components = expiration.split(' ')
+      components.first.to_i.send(components.second.to_sym)
     end
-    
-    def cache_key(url)
-      Digest::SHA1.hexdigest(url)
-    end
-    
-    def clean_duplicates(feed)
-      unless feed.is_a?(Fixnum)
-        new_entries = feed.entries.inject([]) do |collection, entry|
-          if collection.any? {|e| e.url == entry.url }
-            collection
-          else
-            collection << entry
-          end
-        end
-        feed.entries.replace new_entries
-      end
-    end
-    
-    def load_from_cache(url)
-      Marshal.load(File.read(cache_file(url)))
-    end
-    
-    def save_to_cache(url, object)
-      unless object.is_a?(Fixnum)
-        File.open(cache_file(url), "w") {|f| f.write Marshal.dump(object) }
-      end
-    end
-    
-    def initialize
-      @cache_dir = "#{RAILS_ROOT}/tmp/feed_cache"
-    end
+  end
+
 end
