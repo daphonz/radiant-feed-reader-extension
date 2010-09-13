@@ -115,7 +115,7 @@ describe "FeedReaderTags" do
     end
   end
   
-  describe "<r:feed:entries:each:media_content_url>" do
+  describe "<r:feed:entries:each:media_url>" do
     it "should render the media content url" do
       @page.should render('<r:feed:entries:each url="http://seancribbs.com/atom.xml" limit="1"><r:media_url /></r:feed:entries:each>').as("http://www.feedorall.com/sample.mp3")
     end
